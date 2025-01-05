@@ -1,47 +1,109 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<!DOCTYPE>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/css/Test/index1.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div id="header">
-            <img src="/photo//tpkicon.jpg" alt="Profile image" id="proflie_logo">
-            <h1 class="text_header">THON PHEAKDEY</h1>
-            <p class="text_header">Welcome to website.<br>This website has product, calculator.</p>
-          </div>
-          <div id="taskbar">
-            <button ><a href="#home">Home</a></button>
-            <button ><a href="#products">Products</a></button>
-            <button ><a href="#Calculate">Calculate</a></button>
-            <button ><a href="#About">About</a></button>
-          </div>
-          <div id="home">
-            
-          </div>
-          <div id="products"></div>
-            
-          </div>
-        <script src="" async defer></script>
-        <script>
-          // Smooth scrolling
-          document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-              anchor.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  document.querySelector(this.getAttribute('href')).scrollIntoView({
-                      behavior: 'smooth'
-                  });
-              });
-          });
-      </script>
-    </body>
+
+<head>
+  <title>THON PHEAKDEY</title>
+  <link rel="stylesheet" type="text/css" href="../../css/Test/index1.css">
+  
+  <!-- <style>
+    body {
+      margin: 0px;
+    }
+
+    #header {
+      background: linear-gradient(to bottom, #57a7ff, #df8ae3);
+      color: aliceblue;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    #proflie_logo {
+      border-radius: 100%;
+      margin-bottom: 0.5rem;
+
+    }
+
+    .text_header {
+      margin: 3px;
+    }
+
+    /* taskbar */
+    #taskbar {
+      background-color: #f1ebeb3b;
+      color: rgb(255, 0, 0);
+      padding: 9px;
+      text-align: center;
+      display: flex;
+      justify-content: space-around;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+    }
+
+    #taskbar button {
+      background-color: #df8ae3;
+      padding-top: 7px;
+      border-radius: 15px;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    #taskbar :hover {
+      background-color: #bf0ec9;
+    }
+
+    #taskbar button a {
+      color: #f5f5f5;
+      text-decoration: inherit;
+    }
+
+    /* .............. .............. ............ */
+
+    #home {
+      height: 1000px;
+      background-color: #57a7ff;
+    }
+
+    #products {
+      height: 1000px;
+      background-color: #0e2033;
+    }
+  </style> -->
+</head>
+
+<body>
+  <div id="header">
+    <img src="../../photo/tpkicon.jpg" alt="Profile image" id="proflie_logo">
+    <h1 class="text_header">THON PHEAKDEY</h1>
+    <p class="text_header">Welcome to website.<br>This website has product, calculator.</p>
+  </div>
+  <div id="taskbar">
+    <button><a href="#home">Home</a></button>
+    <button><a href="#products">Products</a></button>
+    <button><a href="#Calculate">Calculate</a></button>
+    <button><a href="#About">About</a></button>
+  </div>
+  <div id="home">
+
+  </div>
+  <div id="products"></div>
+
+  </div>
+  <script>
+    // Smooth scrolling
+    document.querySelectorAll('button[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+
 </html>

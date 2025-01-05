@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mega Tic Tac Toe Online</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 2px;
+    }
+    .cell {
+      width: 50px;
+      height: 50px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      text-align: center;
+      line-height: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cell.taken {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #controls {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    #online-users {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    #invite-section {
+      margin-top: 20px;
+    }
+    #invite-section input {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    #invite-section button {
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mega Tic Tac Toe</h1>
+  <div id="game-board"></div>
+  <div id="status">Player X's turn</div>
+  <div id="controls">
+    <button id="reset-button">Reset Game</button>
+    <div id="winner-count">Player X Wins: 0 | Player O Wins: 0</div>
+  </div>
+  <div id="online-users">Users Online: <span id="user-count">0</span></div>
+  <div id="invite-section">
+    <input type="text" id="invite-code" placeholder="Enter invite code">
+    <button id="join-game">Join Game</button>
+    <button id="generate-invite">Generate Invite Code</button>
+    <div id="generated-code" style="margin-top: 10px; font-size: 14px;"></div>
+  </div>
+
+  <script>
+    const boardSize = 10; // Adjust for larger boards
+    const gameBoard = document.getElementById('game-board');
+    const statusDiv = document.getElementById('status');
+    const resetButton = document.getElementById('reset-button');
+    const winnerCountDiv = document.getElementById('winner-count');
+    const userCountSpan = document.getElementById('user-count');
+    const inviteCodeInput = document.getElementById('invite-code');
+    const joinGameButton = document.getElementById('join-game');
+    const generateInviteButton = document.getElementById('generate-invite');
+    const generatedCodeDiv = document.getElementById('generated-code');
+
+    let currentPlayer = 'X';
+    let playerXWins = 0;
+    let playerOWins = 0;
+    let onlineUsers = Math.floor(Math.random() * 100) + 1; // Simulated online users
+    const boardState = Array(boardSize).fill(null).map(() => Array(boardSize).fill(null));
+
+    function updateOnlineUsers() {
+      userCountSpan.textContent = onlineUsers;
+    }
+
+    function updateWinnerCount() {
+      winnerCountDiv.textContent = `Player X Wins: ${playerXWins} | Player O Wins: ${playerOWins}`;
+    }
+
+    function generateInviteCode() {
+      const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+      generatedCodeDiv.textContent = `Invite Code: ${inviteCode}`;
+    }
+
+    function joinGame() {
+      const code = inviteCodeInput.value.trim();
+      if (code) {
+        alert(`Joining game with invite code: ${code}`);
+      } else {
+        alert('Please enter a valid invite code.');
+      }
+    }
+
+    function checkWinner(row, col) {
+      const directions = [
+        { dr: 0, dc: 1 }, // Horizontal
+        { dr: 1, dc: 0 }, // Vertical
+        { dr: 1, dc: 1 }, // Diagonal down-right
+        { dr: 1, dc: -1 } // Diagonal down-left
+      ];
+      
+      for (const { dr, dc } of directions) {
+        let count = 1;
+        // Check in both directions
+        for (let step = 1; step < 5; step++) {
+          const r = row + dr * step;
+          const c = col + dc * step;
+          if (r >= 0 && r < boardSize && c >= 0 && c < boardSize && boardState[r][c] === currentPlayer) {
+            count++;
+          } else {
+            break;
+          }
+        }
+        for (let step = 1; step < 5; step++) {
+          const r = row - dr * step;
+          const c = col - dc * step;
+          if (r >= 0 && r < boardSize && c >= 0 && c < boardSize && boardState[r][c] === currentPlayer) {
+            count++;
+          } else {
+            break;
+          }
+        }
+        if (count >= 5) return true;
+      }
+      return false;
+    }
+
+    function handleClick(e) {
+      const cell = e.target;
+      const row = parseInt(cell.dataset.row);
+      const col = parseInt(cell.dataset.col);
+
+      if (boardState[row][col] !== null) return;
+
+      boardState[row][col] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add('taken');
+
+      if (checkWinner(row, col)) {
+        statusDiv.textContent = `Player ${currentPlayer} wins!`;
+        if (currentPlayer === 'X') {
+          playerXWins++;
+        } else {
+          playerOWins++;
+        }
+        updateWinnerCount();
+        gameBoard.removeEventListener('click', handleClick);
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      statusDiv.textContent = `Player ${currentPlayer}'s turn`;
+    }
+
+    function initializeBoard() {
+      gameBoard.innerHTML = '';
+      for (let row = 0; row < boardSize; row++) {
+        for (let col = 0; col < boardSize; col++) {
+          const cell = document.createElement('div');
+          cell.classList.add('cell');
+          cell.dataset.row = row;
+          cell.dataset.col = col;
+          gameBoard.appendChild(cell);
+        }
+      }
+      boardState.forEach(row => row.fill(null));
+      gameBoard.addEventListener('click', handleClick);
+      statusDiv.textContent = `Player X's turn`;
+      currentPlayer = 'X';
+    }
+
+    resetButton.addEventListener('click', initializeBoard);
+    generateInviteButton.addEventListener('click', generateInviteCode);
+    joinGameButton.addEventListener('click', joinGame);
+
+    initializeBoard();
+    updateWinnerCount();
+    updateOnlineUsers();
+  </script>
+</body>
+</html>

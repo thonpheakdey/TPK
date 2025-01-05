@@ -20,8 +20,8 @@ body{
 
 /* taskbar */
 #taskbar {
-    background-color: #f1ebeb3b;
-    color: white;
+    background-color: #f1ebeb;
+    color: rgb(255, 0, 0);
     padding: 9px;
     text-align: center;
     display: flex;
@@ -41,6 +41,7 @@ body{
     position: sticky;
     top: 0;
     z-index: 1000;
+    /* height: 10px; */
 }
 
 #taskbar :hover {
@@ -56,10 +57,10 @@ body{
 
 #home {
     height: 1000px;
-    background-color: #57a7ff;
+    background-color: #1c8a82;
 }
 
 #products {
     height: 1000px;
-    background-color: #0e2033;
+    background-color: #0d549f;
 }
